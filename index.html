@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFarms - AI-Powered Smart Farming</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1E8449',
+            secondary: '#5CAD56',
+            accent: '#F39C12',
+            darkgreen: '#145A32',
+            lightgreen: '#E8F8F5'
+          },
+          animation: {
+            'spin-slow': 'spin 3s linear infinite',
+            'float': 'floating 3s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- GSAP for advanced animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  <style>
+    /* Global styles and variables */
+    :root {
+      --primary: #1E8449;
+      --secondary: #5CAD56;
+      --accent: #F39C12;
+      --darkgreen: #145A32;
+      --lightgreen: #E8F8F5;
+      --text-dark: #1A202C;
+      --text-light: #F7FAFC;
+      --background-light: #F7FAFC;
+      --background-dark: #1A202C;
+      --transition-slow: 0.5s;
+      --transition-medium: 0.3s;
+      --transition-fast: 0.15s;
+    }
+    
+    /* Light/Dark Mode Settings */
+    .dark-mode {
+      --primary: #2ECC71;
+      --secondary: #68D269;
+      --accent: #FFB72B;
+      --darkgreen: #196F3D;
+      --lightgreen: #0D1F17;
+      --text-dark: #F7FAFC;
+      --text-light: #1A202C;
+      --background-light: #1A202C;
+      --background-dark: #0D1117;
+    }
+    
+    body {
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color var(--transition-medium), color var(--transition-medium);
+      overflow-x: hidden;
+    }
+    
+    /* Page Loading Animation */
+    .loader-wrapper {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: var(--background-light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    
+    .loader {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+    
+    .loader-leaf {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50% 0;
+      background: var(--primary);
+      transform-origin: bottom right;
+      animation: leafSpin 2s infinite ease-in-out;
+    }
+    
+    .loader-leaf:nth-child(2) {
+      width: 50px;
+      height: 50px;
+      background: var(--secondary);
+      animation-delay: -0.4s;
+    }
+    
+    .loader-leaf:nth-child(3) {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      animation-delay: -0.8s;
+    }
+    
+    @keyframes leafSpin {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(360deg); }
+    }
+    
+    /* Scroll Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-100px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(100px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    
+    .reveal-left.active, .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    
+    /* Hero Section */
+    .hero {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://cdn.pixabay.com/photo/2017/07/28/17/20/wheat-2549245_1280.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      isolation: isolate;
+    }
+    
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(30, 132, 73, 0.7) 0%, rgba(20, 90, 50, 0.7) 100%);
+      mix-blend-mode: overlay;
+      z-index: -1;
+    }
+    
+    .hero-clip-path {
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+    
+    .bg-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .text-shadow-lg {
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    /* Service Cards */
+    .service-card {
+      transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+      backface-visibility: hidden;
+      will-change: transform;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-10px) rotateY(5deg);
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Curved Section Divider */
+    .curve-top {
+      position: relative;
+    }
+    
+    .curve-top::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-color: inherit;
+      border-top-left-radius: 50% 50%;
+      border-top-right-radius: 50% 50%;
+    }
+    
+    .curve-bottom {
+      position: relative;
+    }
+    
+    .curve-bottom::after {
+      content: "";
+      position: absolute;
+      bottom: -50px;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-color: inherit;
+      border-bottom-left-radius: 50% 50%;
+      border-bottom-right-radius: 50% 50%;
+      z-index: 1;
+    }
+    
+    /* Partners carousel animation */
+    .partners-container {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+    
+    .partners-track {
+      display: flex;
+      animation: scroll 30s linear infinite;
+      width: calc(200px * 12); /* Double the number of partners */
+    }
+    
+    .partner-item {
+      width: 200px;
+      flex-shrink: 0;
+      padding: 1rem;
+    }
+    
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-200px * 6)); } /* Negative half of the width */
+    }
+    
+    .partners-track:hover {
+      animation-play-state: paused;
+    }
+    
+    /* 3D Card Effect */
+    .card-3d {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    
+    .card-3d-content {
+      transition: transform var(--transition-medium);
+      transform: translateZ(0);
+    }
+    
+    .card-3d:hover .card-3d-content {
+      transform: translateZ(30px);
+    }
+    
+    /* Floating Chat Button */
+    .chat-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--darkgreen));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      z-index: 100;
+      transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+    }
+    
+    .chat-button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 99;
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all var(--transition-medium);
+    }
+    
+    .dark-mode .theme-toggle {
+      background: #2D3748;
+    }
+    
+    /* Development Mode Popup */
+    .development-popup {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      max-width: 400px;
+      display: none;
+      animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+    
+    /* Staggered Grid */
+    .staggered-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(100px, auto);
+      gap: 20px;
+    }
+    
+    .grid-item-1 {
+      grid-column: 1 / 7;
+      grid-row: 1 / 3;
+    }
+    
+    .grid-item-2 {
+      grid-column: 7 / 13;
+      grid-row: 1 / 2;
+    }
+    
+    .grid-item-3 {
+      grid-column: 7 / 13;
+      grid-row: 2 / 3;
+    }
+    
+    .grid-item-4 {
+      grid-column: 1 / 5;
+      grid-row: 3 / 4;
+    }
+    
+    .grid-item-5 {
+      grid-column: 5 / 9;
+      grid-row: 3 / 4;
+    }
+    
+    .grid-item-6 {
+      grid-column: 9 / 13;
+      grid-row: 3 / 4;
+    }
+    
+    @media (max-width: 768px) {
+      .staggered-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      
+      .grid-item-1,
+      .grid-item-2,
+      .grid-item-3,
+      .grid-item-4,
+      .grid-item-5,
+      .grid-item-6 {
+        grid-column: 1;
+      }
+      
+      .grid-item-1 { grid-row: 1; }
+      .grid-item-2 { grid-row: 2; }
+      .grid-item-3 { grid-row: 3; }
+      .grid-item-4 { grid-row: 4; }
+      .grid-item-5 { grid-row: 5; }
+      .grid-item-6 { grid-row: 6; }
+    }
+    
+    /* App Screens Gallery */
+    .app-screen {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+    
+    .app-screen:hover {
+      transform: translateY(-10px) rotateY(5deg);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    }
+    
+    .phone-frame {
+      position: relative;
+      border-radius: 40px;
+      padding: 15px;
+      background: #1a1a1a;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .phone-frame::before {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 10px;
+      background: #1a1a1a;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 10px;
+    }
+    
+    /* Blob Shapes */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.4;
+      z-index: -1;
+    }
+    
+    .blob-1 {
+      width: 300px;
+      height: 300px;
+      background: var(--primary);
+      top: -100px;
+      left: -100px;
+      animation: blob-move 15s ease-in-out infinite;
+    }
+    
+    .blob-2 {
+      width: 400px;
+      height: 400px;
+      background: var(--accent);
+      bottom: -150px;
+      right: -150px;
+      animation: blob-move 20s ease-in-out infinite reverse;
+    }
+    
+    @keyframes blob-move {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(50px, 50px) scale(1.1); }
+      50% { transform: translate(0, 100px) scale(0.9); }
+      75% { transform: translate(-50px, 50px) scale(1.2); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Page Loader -->
+  <div class="loader-wrapper" id="loader">
+    <div class="loader">
+      <div class="loader-leaf"></div>
+      <div class="loader-leaf"></div>
+      <div class="loader-leaf"></div>
+    </div>
+  </div>
+
+  <!-- Dark Mode Toggle -->
+  <div class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode">
+    <i class="fas fa-moon text-gray-800 dark:hidden"></i>
+    <i class="fas fa-sun text-yellow-300 hidden dark:inline"></i>
+  </div>
+
+  <!-- Floating Chat Button -->
+  <div class="chat-button" id="chat-btn">
+    <i class="fas fa-comment-dots text-xl"></i>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="bg-gradient-to-r from-darkgreen to-primary sticky top-0 z-50 backdrop-blur-md shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex">
+          <div class="flex-shrink-0 flex items-center">
+            <span class="text-white text-2xl font-bold flex items-center">
+              <i class="fas fa-seedling mr-2 animate-spin-slow"></i>EasyFarms
+            </span>
+          </div>
+          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <a href="#about" class="text-white/80 hover:text-white hover:border-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium transition duration-300">About</a>
+            <a href="#hal" class="text-white/80 hover:text-white hover:border-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium transition duration-300">Meet Hal</a>
+            <a href="#services" class="text-white/80 hover:text-white hover:border-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium transition duration-300">Services</a>
+            <a href="#how" class="text-white/80 hover:text-white hover:border-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium transition duration-300">How It Works</a>
+            <a href="#testimonials" class="text-white/80 hover:text-white hover:border-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium transition duration-300">Testimonials</a>
+            <a href="#partners" class="text-white/80 hover:text-white hover:border-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium transition duration-300">Partners</a>
+          </div>
+        </div>
+        <div class="hidden sm:ml-6 sm:flex sm:items-center">
+          <button class="px-4 py-2 text-primary bg-white hover:bg-gray-100 rounded-full transition duration-300 shadow-lg font-medium relative overflow-hidden group">
+            <span class="absolute w-0 h-0 transition-all duration-300 ease-out bg-primary rounded-full group-hover:w-full group-hover:h-full left-0 top-0"></span>
+            <span class="relative flex items-center">
+              <i class="fas fa-user-circle mr-2"></i>
+              <span class="group-hover:text-white transition-colors duration-300">Sign In</span>
+            </span>
+          </button>
+        </div>
+        <div class="-mr-2 flex items-center sm:hidden">
+          <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white/80 hover:bg-darkgreen/50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile menu, show/hide based on menu state -->
+    <div class="sm:hidden hidden mobile-menu">
+      <div class="pt-2 pb-3 space-y-1 bg-darkgreen/90 backdrop-blur-sm">
+        <a href="#about" class="text-white/80 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+        <a href="#hal" class="text-white/80 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Meet Hal</a>
+        <a href="#services" class="text-white/80 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Services</a>
+        <a href="#how" class="text-white/80 hover:text-white block px-3 py-2 rounded-md text-base font-medium">How It Works</a>
+        <a href="#testimonials" class="text-white/80 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Testimonials</a>
+        <a href="#partners" class="text-white/80 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Partners</a>
+      </div>
+      <div class="pt-4 pb-3 border-t border-gray-700 bg-darkgreen/90 backdrop-blur-sm">
+        <a href="#" class="block w-full px-5 py-3 text-center font-medium text-primary bg-white hover:bg-gray-100 rounded-md transition duration-300 mx-2">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero hero-clip-path h-screen flex items-center justify-center text-white relative overflow-hidden">
+    <!-- Abstract Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <!-- Gradient & Pattern Overlays -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 z-10"></div>
+    <div class="absolute inset-0 bg-pattern bg-repeat opacity-20 z-0"></div>
+    
+    <!-- Asymmetric Layout with Animated Elements -->
+    <div class="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+      <!-- Left Text Content -->
+      <div class="md:w-3/5 text-left md:pr-10 mb-10 md:mb-0">
+        <div class="reveal-left reveal-delay-1">
+          <div class="inline-block bg-primary/20 backdrop-blur-sm px-4 py-2 rounded-full mb-4 border border-white/20">
+            <span class="text-white font-medium flex items-center">
+              <i class="fas fa-leaf animate-spin-slow mr-2"></i>
+              The Future of Farming is Here
+            </span>
+          </div>
+          <h1 class="text-4xl md:text-7xl font-extrabold mb-6 text-shadow-lg leading-tight">
+            AI-Powered <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-300">Smart Farming</span> for Every Farmer
+          </h1>
+          <p class="text-xl md:text-2xl mb-10 text-white/90 max-w-2xl">Revolutionizing agriculture with AI to increase yield, reduce costs, and promote sustainability.</p>
+          <div class="flex flex-wrap gap-5">
+            <a href="#how" class="px-8 py-4 bg-gradient-to-r from-primary to-darkgreen text-white font-bold rounded-full hover:shadow-lg hover:shadow-primary/30 transition duration-300 text-lg transform hover:-translate-y-1 flex items-center">
+              <i class="fas fa-seedling mr-2"></i>Get Started
+            </a>
+            <a href="#hal" class="px-8 py-4 bg-gradient-to-r from-accent to-yellow-500 text-gray-800 font-bold rounded-full hover:shadow-lg hover:shadow-accent/30 transition duration-300 text-lg transform hover:-translate-y-1 flex items-center">
+              <i class="fas fa-robot mr-2"></i>Try AI Assistant Hal
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Floating Image -->
+      <div class="md:w-2/5 relative">
+        <div class="floating reveal-right reveal-delay-3">
+          <div class="relative">
+            <!-- 3D Card Effect -->
+            <div class="card-3d bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/20 shadow-2xl">
+              <div class="card-3d-content">
+                <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=1000" alt="Smart Farm Dashboard" class="rounded-xl w-full mb-4">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <h3 class="text-lg font-semibold">Farm Dashboard</h3>
+                    <p class="text-white/80 text-sm">Real-time monitoring</p>
+                  </div>
+                  <div class="bg-primary rounded-full h-10 w-10 flex items-center justify-center">
+                    <i class="fas fa-chart-line"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Floating Stats Card -->
+            <div class="absolute -bottom-10 -left-20 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20 shadow-lg">
+              <div class="flex items-center space-x-3">
+                <div class="bg-accent/20 rounded-lg h-10 w-10 flex items-center justify-center text-accent">
+                  <i class="fas fa-leaf"></i>
+                </div>
+                <div>
+                  <p class="text-xs text-white/80">Crop Health</p>
+                  <p class="text-lg font-semibold text-white">97% Optimal</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Floating Weather Card -->
+            <div class="absolute -top-10 -right-10 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20 shadow-lg">
+              <div class="flex items-center space-x-3">
+                <div class="bg-primary/20 rounded-lg h-10 w-10 flex items-center justify-center text-primary">
+                  <i class="fas fa-cloud-sun"></i>
+                </div>
+                <div>
+                  <p class="text-xs text-white/80">Weather</p>
+                  <p class="text-lg font-semibold text-white">Sunny, 24°C</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scroll Down Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <a href="#about" class="text-white opacity-80 hover:opacity-100 transition-opacity">
+        <i class="fas fa-chevron-down text-2xl"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">About EasyFarms</h2>
+        <div class="h-1 w-20 bg-primary mx-auto"></div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 md:pr-10 mb-8 md:mb-0">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Our Mission</h3>
+          <p class="text-gray-600 text-lg mb-6">
+            EasyFarms aims to transform traditional farming by bringing cutting-edge AI technology to every farmer, regardless of farm size or location. We believe that sustainable agriculture is the key to feeding our growing population while preserving our planet.
+          </p>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Our Vision</h3>
+          <p class="text-gray-600 text-lg">
+            We envision a world where farmers have access to the most advanced agricultural intelligence at their fingertips, enabling them to make data-driven decisions that maximize yields, minimize environmental impact, and create thriving farm businesses.
+          </p>
+        </div>
+        <div class="md:w-1/2">
+          <img src="https://cdn.pixabay.com/photo/2022/02/04/10/31/cow-6992475_1280.jpg" alt="Farming landscape" class="rounded-lg shadow-xl w-full">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet Hal Section -->
+  <section id="hal" class="py-20 bg-gradient-to-b from-lightgreen to-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-pattern bg-repeat opacity-10 z-0"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-16">
+        <span class="inline-block bg-primary text-white px-4 py-1 rounded-full text-sm font-medium mb-4">AI ASSISTANT</span>
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Meet "Hal" – Your AI Assistant</h2>
+        <div class="h-1 w-24 bg-accent mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Your personal farming expert powered by artificial intelligence, available 24/7.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="bg-white p-8 rounded-xl shadow-xl transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+          <div class="space-y-8">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-primary text-white shadow-lg">
+                  <i class="fas fa-seedling text-xl"></i>
+                </div>
+              </div>
+              <div class="ml-6">
+                <h3 class="text-xl font-semibold text-gray-800">Crop Guidance</h3>
+                <p class="mt-2 text-gray-600">Get personalized recommendations for crop selection, planting times, and harvesting based on your soil, climate, and farm history.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-primary text-white shadow-lg">
+                  <i class="fas fa-microscope text-xl"></i>
+                </div>
+              </div>
+              <div class="ml-6">
+                <h3 class="text-xl font-semibold text-gray-800">Soil Analysis</h3>
+                <p class="mt-2 text-gray-600">Upload soil sample images and receive detailed analysis of nutrients, pH levels, and recommendations for amendments.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-primary text-white shadow-lg">
+                  <i class="fas fa-bug text-xl"></i>
+                </div>
+              </div>
+              <div class="ml-6">
+                <h3 class="text-xl font-semibold text-gray-800">Disease Detection</h3>
+                <p class="mt-2 text-gray-600">Identify plant diseases and pests early with our image recognition technology and get treatment recommendations.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-primary text-white shadow-lg">
+                  <i class="fas fa-cloud-sun-rain text-xl"></i>
+                </div>
+              </div>
+              <div class="ml-6">
+                <h3 class="text-xl font-semibold text-gray-800">Weather Tips</h3>
+                <p class="mt-2 text-gray-600">Receive weather forecasts tailored to your location with farming-specific advice on how to prepare for upcoming conditions.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-10 text-center">
+            <a href="#" class="inline-flex items-center px-6 py-3 bg-accent text-gray-800 font-bold rounded-full hover:bg-yellow-400 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              <i class="fas fa-robot mr-2"></i> Try Hal Now
+            </a>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <div class="relative w-full max-w-md">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
+              <div class="bg-gradient-to-r from-primary to-darkgreen p-4 text-white text-center">
+                <h3 class="text-xl font-semibold flex items-center justify-center">
+                  <i class="fas fa-robot mr-2"></i> Hal AI Assistant
+                </h3>
+              </div>
+              <div class="p-6 bg-gray-50 h-96 overflow-y-auto">
+                <div class="flex items-start mb-6">
+                  <div class="flex-shrink-0 bg-gradient-to-r from-primary to-darkgreen text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
+                    <i class="fas fa-robot"></i>
+                  </div>
+                  <div class="ml-3 bg-white rounded-xl p-4 max-w-xs shadow-md">
+                    <p class="text-gray-700">Hello! I'm Hal, your farming assistant. How can I help you today?</p>
+                  </div>
+                </div>
+                <div class="flex items-start justify-end mb-6">
+                  <div class="mr-3 bg-accent/10 rounded-xl p-4 max-w-xs shadow-md">
+                    <p class="text-gray-700">My tomato plants have yellow spots on their leaves. What could be wrong?</p>
+                  </div>
+                  <div class="flex-shrink-0 bg-accent text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
+                    <i class="fas fa-user"></i>
+                  </div>
+                </div>
+                <div class="flex items-start mb-6">
+                  <div class="flex-shrink-0 bg-gradient-to-r from-primary to-darkgreen text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
+                    <i class="fas fa-robot"></i>
+                  </div>
+                  <div class="ml-3 bg-white rounded-xl p-4 max-w-xs shadow-md">
+                    <p class="text-gray-700">Based on your description, your tomato plants might have early blight. Could you upload a photo for a more accurate diagnosis?</p>
+                  </div>
+                </div>
+                <div class="flex items-start justify-end">
+                  <div class="mr-3 bg-accent/10 rounded-xl p-4 max-w-xs shadow-md">
+                    <p class="text-gray-700">I'll take a picture right now.</p>
+                  </div>
+                  <div class="flex-shrink-0 bg-accent text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
+                    <i class="fas fa-user"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4 border-t border-gray-200 bg-white">
+                <div class="flex">
+                  <input type="text" placeholder="Ask Hal a question..." class="flex-1 border border-gray-300 rounded-l-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary shadow-inner">
+                  <button class="bg-gradient-to-r from-primary to-darkgreen text-white px-5 py-3 rounded-r-full shadow-lg">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-20 bg-white relative overflow-hidden">
+    <!-- Background blobs -->
+    <div class="blob blob-1 opacity-20"></div>
+    <div class="blob blob-2 opacity-10"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-16">
+        <span class="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">OUR OFFERINGS</span>
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Intelligent Farming Solutions</h2>
+        <div class="h-1 w-24 bg-gradient-to-r from-primary to-secondary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive agricultural services powered by cutting-edge artificial intelligence.</p>
+      </div>
+      
+      <!-- Staggered Grid Layout -->
+      <div class="staggered-grid">
+        <!-- Service 1: Soil Analysis (Large Card) -->
+        <div class="grid-item-1 reveal">
+          <div class="service-card card-3d h-full bg-white rounded-2xl shadow-xl overflow-hidden transition duration-300 relative group">
+            <div class="card-3d-content h-full">
+              <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 z-10 opacity-60 group-hover:opacity-80 transition-opacity"></div>
+              <img src="https://cdn.pixabay.com/photo/2021/11/19/11/55/field-6809045_1280.jpg" alt="Soil Analysis" class="w-full h-3/5 object-cover">
+              <div class="p-6 h-2/5 flex flex-col justify-between relative z-20">
+                <div>
+                  <div class="w-14 h-14 bg-gradient-to-r from-primary to-darkgreen rounded-xl flex items-center justify-center text-white mb-4 shadow-lg transform -translate-y-12 group-hover:-translate-y-16 transition-transform">
+                    <i class="fas fa-flask text-2xl"></i>
+                  </div>
+                  <h3 class="text-2xl font-bold text-gray-800 mb-2 mt-[-2rem]">Soil Analysis</h3>
+                  <p class="text-gray-600">Advanced soil testing and analysis to understand nutrient content, pH levels, and recommendations for optimal fertility.</p>
+                </div>
+                <a href="#" class="text-primary font-medium hover:underline flex items-center">
+                  Learn more <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Service 2: Crop Advisory -->
+        <div class="grid-item-2 reveal reveal-delay-1">
+          <div class="service-card card-3d h-full bg-white rounded-2xl shadow-xl overflow-hidden transition duration-300 group">
+            <div class="card-3d-content h-full flex flex-col">
+              <div class="h-48 overflow-hidden relative">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 z-10 opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                <img src="https://cdn.pixabay.com/photo/2017/07/28/17/20/wheat-2549245_1280.jpg" alt="Crop Advisory" class="w-full h-full object-cover">
+                <div class="absolute top-4 left-4 bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1 text-white text-sm font-medium z-20">Popular</div>
+              </div>
+              <div class="p-6 flex-grow flex flex-col justify-between relative">
+                <div>
+                  <div class="w-14 h-14 bg-gradient-to-r from-primary to-darkgreen rounded-xl flex items-center justify-center text-white mb-4 shadow-lg transform -translate-y-12 group-hover:-translate-y-16 transition-transform">
+                    <i class="fas fa-leaf text-2xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-gray-800 mb-2 mt-[-2rem]">Crop Advisory</h3>
+                  <p class="text-gray-600 text-sm">Personalized crop recommendations based on your soil, climate, and market conditions.</p>
+                </div>
+                <a href="#" class="text-primary font-medium hover:underline flex items-center mt-4">
+                  Learn more <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Service 3: Weather Forecasting -->
+        <div class="grid-item-3 reveal reveal-delay-2">
+          <div class="service-card card-3d h-full bg-white rounded-2xl shadow-xl overflow-hidden transition duration-300 group">
+            <div class="card-3d-content h-full flex flex-col">
+              <div class="h-48 overflow-hidden relative">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 z-10 opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                <img src="https://cdn.pixabay.com/photo/2020/12/16/14/56/farm-5836815_1280.jpg" alt="Weather Forecasting" class="w-full h-full object-cover">
+              </div>
+              <div class="p-6 flex-grow flex flex-col justify-between relative">
+                <div>
+                  <div class="w-14 h-14 bg-gradient-to-r from-primary to-darkgreen rounded-xl flex items-center justify-center text-white mb-4 shadow-lg transform -translate-y-12 group-hover:-translate-y-16 transition-transform">
+                    <i class="fas fa-cloud-sun-rain text-2xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-gray-800 mb-2 mt-[-2rem]">Weather Forecasting</h3>
+                  <p class="text-gray-600 text-sm">Hyperlocal weather predictions with farm-specific insights to help you plan.</p>
+                </div>
+                <a href="#" class="text-primary font-medium hover:underline flex items-center mt-4">
+                  Learn more <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Services 4-6: Smaller Cards in Row -->
+        <!-- Pest & Disease Detection -->
+        <div class="grid-item-4 reveal reveal-delay-3">
+          <div class="service-card bg-white rounded-2xl shadow-lg overflow-hidden transition duration-300 h-full flex flex-col">
+            <div class="p-6 flex items-start">
+              <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white">
+                <i class="fas fa-bug text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Pest & Disease Detection</h3>
+                <p class="text-gray-600 text-sm">Early identification of plant diseases using AI image recognition.</p>
+                <a href="#" class="text-primary font-medium hover:underline text-sm flex items-center mt-2">
+                  Details <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Community Forum -->
+        <div class="grid-item-5 reveal reveal-delay-4">
+          <div class="service-card bg-white rounded-2xl shadow-lg overflow-hidden transition duration-300 h-full flex flex-col">
+            <div class="p-6 flex items-start">
+              <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white">
+                <i class="fas fa-users text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Community Forum</h3>
+                <p class="text-gray-600 text-sm">Connect with fellow farmers, share experiences, and learn together.</p>
+                <a href="#" class="text-primary font-medium hover:underline text-sm flex items-center mt-2">
+                  Details <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Agri Marketplace -->
+        <div class="grid-item-6 reveal reveal-delay-5">
+          <div class="service-card bg-white rounded-2xl shadow-lg overflow-hidden transition duration-300 h-full flex flex-col">
+            <div class="p-6 flex items-start">
+              <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white">
+                <i class="fas fa-store text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Agri Marketplace</h3>
+                <p class="text-gray-600 text-sm">Buy and sell farm products directly with other farmers and businesses.</p>
+                <a href="#" class="text-primary font-medium hover:underline text-sm flex items-center mt-2">
+                  Details <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- View All Services Button -->
+      <div class="mt-12 text-center">
+        <a href="#" class="inline-flex items-center px-6 py-3 bg-white text-primary border-2 border-primary rounded-full hover:bg-primary hover:text-white transition-colors duration-300 font-bold">
+          View All Services <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how" class="py-16 bg-lightgreen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">How It Works</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Getting started with EasyFarms is simple and quick.</p>
+      </div>
+      <div class="flex flex-col md:flex-row justify-between items-center md:space-x-6">
+        <!-- Step 1 -->
+        <div class="w-full md:w-1/3 mb-8 md:mb-0">
+          <div class="bg-white p-8 rounded-xl shadow-lg text-center h-full">
+            <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">1</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Sign Up</h3>
+            <p class="text-gray-600">Create your EasyFarms account and enter basic information about your farm location and size.</p>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="w-full md:w-1/3 mb-8 md:mb-0">
+          <div class="bg-white p-8 rounded-xl shadow-lg text-center h-full">
+            <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">2</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Add Farm Details</h3>
+            <p class="text-gray-600">Tell us about your soil, crops, and farming practices. Upload photos or connect your existing farm management system.</p>
+          </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="w-full md:w-1/3">
+          <div class="bg-white p-8 rounded-xl shadow-lg text-center h-full">
+            <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">3</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Get AI Suggestions</h3>
+            <p class="text-gray-600">Receive personalized recommendations, insights, and guidance from our AI system to improve your farming.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12 text-center">
+        <a href="#" class="px-8 py-3 bg-primary text-white font-bold rounded-full hover:bg-darkgreen transition duration-300 text-lg">Get Started Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">What Farmers Say</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Success stories from farmers using EasyFarms.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="bg-lightgreen p-6 rounded-xl shadow">
+          <div class="flex items-center mb-4">
+            <div class="w-16 h-16 rounded-full overflow-hidden mr-4">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Smith" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">John Smith</h3>
+              <p class="text-gray-600">Wheat Farmer, Kansas</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"EasyFarms helped me increase my wheat yield by 28% in just one season. The soil analysis and precise fertilizer recommendations were game-changers."</p>
+          <div class="flex text-yellow-400">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+        
+        <!-- Testimonial 2 -->
+        <div class="bg-lightgreen p-6 rounded-xl shadow">
+          <div class="flex items-center mb-4">
+            <div class="w-16 h-16 rounded-full overflow-hidden mr-4">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria Rodriguez" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">Maria Rodriguez</h3>
+              <p class="text-gray-600">Organic Vegetable Farmer, California</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"The disease detection feature saved my tomato crop. Hal identified early blight before it spread, and the treatment recommendations worked perfectly."</p>
+          <div class="flex text-yellow-400">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+        </div>
+        
+        <!-- Testimonial 3 -->
+        <div class="bg-lightgreen p-6 rounded-xl shadow">
+          <div class="flex items-center mb-4">
+            <div class="w-16 h-16 rounded-full overflow-hidden mr-4">
+              <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="David Wilson" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">David Wilson</h3>
+              <p class="text-gray-600">Dairy Farmer, Wisconsin</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"The weather forecasting is incredibly accurate. It's helped me plan harvesting and field operations with confidence, saving time and reducing stress."</p>
+          <div class="flex text-yellow-400">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App Showcase Section -->
+  <section class="py-16 bg-lightgreen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">The EasyFarms App</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Experience farming intelligence in your pocket with our intuitive mobile application.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <!-- Home Screen -->
+        <div class="app-screen bg-white rounded-xl overflow-hidden shadow-xl">
+          <div class="phone-frame">
+            <img src="home.jpg" alt="EasyFarms Home Screen" class="w-full rounded-3xl">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Home Dashboard</h3>
+            <p class="text-gray-600">Access weather forecasts, farm analytics, and quick action tools from your personalized dashboard.</p>
+          </div>
+        </div>
+        
+        <!-- Community Page -->
+        <div class="app-screen bg-white rounded-xl overflow-hidden shadow-xl">
+          <div class="phone-frame">
+            <img src="community.jpg" alt="EasyFarms Community Page" class="w-full rounded-3xl">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Community Hub</h3>
+            <p class="text-gray-600">Connect with fellow farmers, share insights, and stay updated with local agricultural market prices.</p>
+          </div>
+        </div>
+        
+        <!-- Marketplace Screen -->
+        <div class="app-screen bg-white rounded-xl overflow-hidden shadow-xl">
+          <div class="phone-frame">
+            <img src="marketplace.jpg" alt="EasyFarms Marketplace" class="w-full rounded-3xl">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Agri Marketplace</h3>
+            <p class="text-gray-600">Browse and purchase quality agricultural products from trusted suppliers at competitive prices.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Download App Section -->
+      <div class="bg-primary text-white p-8 rounded-xl shadow-lg">
+        <div class="flex flex-col md:flex-row items-center justify-between">
+          <div class="md:w-1/2 mb-8 md:mb-0">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">Take EasyFarms With You</h2>
+            <p class="text-lg mb-6">Download our mobile app to access all EasyFarms features right from your pocket, even when you're in the field.</p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a href="#" class="flex items-center px-6 py-3 bg-black rounded-lg hover:bg-gray-900 transition duration-300">
+                <i class="fab fa-google-play text-2xl mr-3"></i>
+                <div>
+                  <div class="text-xs">GET IT ON</div>
+                  <div class="text-lg font-semibold">Google Play</div>
+                </div>
+              </a>
+              <a href="#" class="flex items-center px-6 py-3 bg-black rounded-lg hover:bg-gray-900 transition duration-300">
+                <i class="fab fa-apple text-2xl mr-3"></i>
+                <div>
+                  <div class="text-xs">DOWNLOAD ON THE</div>
+                  <div class="text-lg font-semibold">App Store</div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="md:w-1/3 flex justify-center">
+            <div class="bg-white p-4 rounded-xl">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://easyfarms.ai/download" alt="QR Code" class="w-48 h-48">
+              <p class="text-center mt-2 text-primary font-medium">Scan to download</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners Section -->
+  <section id="partners" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Partners</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">We collaborate with industry leaders to bring you the best agricultural solutions.</p>
+      </div>
+      <div class="partners-container">
+        <div class="partners-track">
+          <!-- First set of partners -->
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS" class="h-12">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Google Cloud" class="h-12">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg" alt="Microsoft Azure" class="h-12">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png" alt="Cloudflare" class="h-10">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://icar.org.in/sites/default/files/2024-06/icar-logo.png" alt="ICAR" class="h-16">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="NVIDIA" class="h-10">
+            </div>
+          </div>
+          
+          <!-- Duplicate set of partners for seamless loop -->
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS" class="h-12">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Google Cloud" class="h-12">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg" alt="Microsoft Azure" class="h-12">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png" alt="Cloudflare" class="h-10">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://icar.org.in/sites/default/files/ICAR-New-Logo.png" alt="ICAR" class="h-16">
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 h-24 flex items-center justify-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="NVIDIA" class="h-10">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 text-center">
+        <p class="text-gray-600">Trusted by leading agricultural institutions and technology providers worldwide.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join Community Section -->
+  <section class="py-16 bg-lightgreen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Join Our Farming Community</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Connect with thousands of farmers, share experiences, and learn together.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="#" class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
+          <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">
+            <i class="fab fa-telegram-plane"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Telegram Group</h3>
+          <p class="text-gray-600 mb-4">Join our active Telegram community for daily tips and discussions.</p>
+          <span class="text-blue-500 font-medium">Join Now <i class="fas fa-arrow-right ml-1"></i></span>
+        </a>
+        
+        <a href="#" class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">WhatsApp Group</h3>
+          <p class="text-gray-600 mb-4">Connect with local farmers in your region via WhatsApp.</p>
+          <span class="text-green-500 font-medium">Join Now <i class="fas fa-arrow-right ml-1"></i></span>
+        </a>
+        
+        <a href="#" class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
+          <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">EasyFarms Forum</h3>
+          <p class="text-gray-600 mb-4">Access our dedicated forum with thousands of topics and expert advice.</p>
+          <span class="text-primary font-medium">Join Now <i class="fas fa-arrow-right ml-1"></i></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-1">
+          <span class="text-2xl font-bold text-white">EasyFarms</span>
+          <p class="mt-4 text-gray-400">AI-powered farming solutions to improve yields, reduce costs, and promote sustainable agriculture.</p>
+          <div class="flex mt-6 space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+            <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Services</a></li>
+            <li><a href="#hal" class="text-gray-400 hover:text-white transition duration-300">Meet Hal</a></li>
+            <li><a href="#testimonials" class="text-gray-400 hover:text-white transition duration-300">Testimonials</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
+              <span>123 Farm Road, Agriville, CA 94123, USA</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-2"></i>
+              <span>+1 (555) 123-4567</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2"></i>
+              <span>info@easyfarms.ai</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Stay Updated</h3>
+          <p class="text-gray-400 mb-4">Subscribe to our newsletter for the latest farming tips and updates.</p>
+          <form class="space-y-2">
+            <input type="email" placeholder="Your email address" class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <button type="submit" class="w-full px-4 py-2 bg-primary text-white font-medium rounded-md hover:bg-darkgreen transition duration-300">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400">&copy; 2023 EasyFarms. All rights reserved.</p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>
+          <a href="#" class="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
+          <a href="#" class="text-gray-400 hover:text-white transition duration-300">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Development Mode Popup -->
+  <div id="development-popup" class="development-popup">
+    <span class="close-popup" id="close-popup">&times;</span>
+    <h3 class="text-xl font-bold mb-2">Development Mode</h3>
+    <p>This website is currently under development. All features are for testing purposes only.</p>
+  </div>
+
+  <!-- Chat with Hal Popup -->
+  <div id="chat-popup" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+    <div class="relative bg-white dark:bg-gray-800 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+      <div class="bg-gradient-to-r from-primary to-darkgreen p-4 text-white">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xl font-semibold flex items-center">
+            <i class="fas fa-robot mr-2"></i> Chat with Hal
+          </h3>
+          <button id="close-chat" class="text-white hover:text-white/80">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-6 bg-gray-50 dark:bg-gray-700 h-96 overflow-y-auto">
+        <div class="flex items-start mb-6">
+          <div class="flex-shrink-0 bg-gradient-to-r from-primary to-darkgreen text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="ml-3 bg-white dark:bg-gray-600 rounded-xl p-4 max-w-xs shadow-md">
+            <p class="text-gray-700 dark:text-white">Hello! I'm Hal, your AI farming assistant. How can I help you today?</p>
+          </div>
+        </div>
+        <div id="typing-indicator" class="flex items-start mb-6 hidden">
+          <div class="flex-shrink-0 bg-gradient-to-r from-primary to-darkgreen text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="ml-3 bg-white dark:bg-gray-600 rounded-xl p-4 max-w-xs shadow-md">
+            <div class="flex space-x-2">
+              <div class="w-3 h-3 bg-gray-400 rounded-full animate-bounce"></div>
+              <div class="w-3 h-3 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+              <div class="w-3 h-3 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 border-t border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800">
+        <div class="flex">
+          <input type="text" id="chat-input" placeholder="Ask Hal a question..." class="flex-1 border border-gray-300 dark:border-gray-600 rounded-l-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white shadow-inner">
+          <button id="send-message" class="bg-gradient-to-r from-primary to-darkgreen text-white px-5 py-3 rounded-r-full shadow-lg">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Page Loader
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hide loader after page loads
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 500);
+      }, 1500);
+      
+      // Initialize scroll animations
+      const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+      
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        const revealPoint = 150;
+        
+        revealElements.forEach(element => {
+          const revealTop = element.getBoundingClientRect().top;
+          if (revealTop < windowHeight - revealPoint) {
+            element.classList.add('active');
+          }
+        });
+      }
+      
+      // Initial check
+      checkReveal();
+      
+      // Add scroll event listener
+      window.addEventListener('scroll', checkReveal);
+      
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('theme-toggle');
+      
+      // Check for saved theme preference or use device preference
+      const savedTheme = localStorage.getItem('theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      
+      // Apply saved theme
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+      
+      themeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark-mode');
+        
+        // Save preference
+        const currentTheme = document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', currentTheme);
+      });
+      
+      // Chat button functionality
+      const chatButton = document.getElementById('chat-btn');
+      const chatPopup = document.getElementById('chat-popup');
+      const closeChat = document.getElementById('close-chat');
+      const chatInput = document.getElementById('chat-input');
+      const sendMessage = document.getElementById('send-message');
+      const typingIndicator = document.getElementById('typing-indicator');
+      
+      chatButton.addEventListener('click', () => {
+        chatPopup.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+      });
+      
+      closeChat.addEventListener('click', () => {
+        chatPopup.classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling
+      });
+      
+      function sendChatMessage() {
+        const message = chatInput.value.trim();
+        if (message) {
+          // Add user message
+          const chatMessages = document.querySelector('#chat-popup .bg-gray-50');
+          chatMessages.innerHTML += `
+            <div class="flex items-start justify-end mb-6">
+              <div class="mr-3 bg-accent/10 dark:bg-accent/20 rounded-xl p-4 max-w-xs shadow-md">
+                <p class="text-gray-700 dark:text-white">${message}</p>
+              </div>
+              <div class="flex-shrink-0 bg-accent text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+          `;
+          
+          // Clear input
+          chatInput.value = '';
+          
+          // Show typing indicator
+          typingIndicator.classList.remove('hidden');
+          
+          // Scroll to bottom
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          
+          // Simulate AI response after delay
+          setTimeout(() => {
+            typingIndicator.classList.add('hidden');
+            
+            // Add AI response
+            const responses = [
+              "I've analyzed your farm data and noticed your corn crop might benefit from additional nitrogen. Would you like specific recommendations?",
+              "Based on the weather forecast for your area, I'd recommend delaying irrigation until Thursday to avoid water runoff during the expected rainfall.",
+              "Your soil analysis indicates optimal conditions for planting winter wheat next month. Would you like me to prepare a planting schedule?",
+              "I've detected a potential early sign of fungal infection in your recent crop images. Let me suggest some preventative measures you can take."
+            ];
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            
+            chatMessages.innerHTML += `
+              <div class="flex items-start mb-6">
+                <div class="flex-shrink-0 bg-gradient-to-r from-primary to-darkgreen text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
+                  <i class="fas fa-robot"></i>
+                </div>
+                <div class="ml-3 bg-white dark:bg-gray-600 rounded-xl p-4 max-w-xs shadow-md">
+                  <p class="text-gray-700 dark:text-white">${randomResponse}</p>
+                </div>
+              </div>
+            `;
+            
+            // Scroll to bottom again
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }, 1500);
+        }
+      }
+      
+      sendMessage.addEventListener('click', sendChatMessage);
+      
+      chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          sendChatMessage();
+        }
+      });
+    });
+    
+    // Mobile menu toggle
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if(targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if(targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Development popup handling
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if this is the first visit
+      if (!localStorage.getItem('devPopupShown')) {
+        setTimeout(function() {
+          document.getElementById('development-popup').style.display = 'block';
+          // Mark as shown
+          localStorage.setItem('devPopupShown', 'true');
+        }, 2000);
+      }
+      
+      // Close button functionality
+      document.getElementById('close-popup').addEventListener('click', function() {
+        document.getElementById('development-popup').style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
