@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFarms - AI-Powered Smart Farming</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2C8B3F',
+            secondary: '#5CAD56',
+            accent: '#FFB72B',
+            darkgreen: '#1A5A30',
+            lightgreen: '#E6F4E9'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .hero {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://cdn.pixabay.com/photo/2017/07/28/17/20/wheat-2549245_1280.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    .fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex">
+          <div class="flex-shrink-0 flex items-center">
+            <span class="text-primary text-2xl font-bold">EasyFarms</span>
+          </div>
+          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <a href="#about" class="border-transparent text-gray-600 hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">About</a>
+            <a href="#hal" class="border-transparent text-gray-600 hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Meet Hal</a>
+            <a href="#services" class="border-transparent text-gray-600 hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Services</a>
+            <a href="#how" class="border-transparent text-gray-600 hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">How It Works</a>
+            <a href="#testimonials" class="border-transparent text-gray-600 hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Testimonials</a>
+          </div>
+        </div>
+        <div class="hidden sm:ml-6 sm:flex sm:items-center">
+          <button class="px-4 py-2 text-white bg-primary hover:bg-darkgreen rounded-md transition duration-300">Sign In</button>
+        </div>
+        <div class="-mr-2 flex items-center sm:hidden">
+          <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile menu, show/hide based on menu state -->
+    <div class="sm:hidden hidden mobile-menu">
+      <div class="pt-2 pb-3 space-y-1">
+        <a href="#about" class="text-gray-600 hover:bg-primary hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+        <a href="#hal" class="text-gray-600 hover:bg-primary hover:text-white block px-3 py-2 rounded-md text-base font-medium">Meet Hal</a>
+        <a href="#services" class="text-gray-600 hover:bg-primary hover:text-white block px-3 py-2 rounded-md text-base font-medium">Services</a>
+        <a href="#how" class="text-gray-600 hover:bg-primary hover:text-white block px-3 py-2 rounded-md text-base font-medium">How It Works</a>
+        <a href="#testimonials" class="text-gray-600 hover:bg-primary hover:text-white block px-3 py-2 rounded-md text-base font-medium">Testimonials</a>
+      </div>
+      <div class="pt-4 pb-3 border-t border-gray-200">
+        <a href="#" class="block w-full px-5 py-3 text-center font-medium text-white bg-primary hover:bg-darkgreen rounded-md transition duration-300">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero h-screen flex items-center justify-center text-white">
+    <div class="text-center max-w-4xl px-4 sm:px-6 lg:px-8 fade-in">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">AI-Powered Smart Farming for Every Farmer</h1>
+      <p class="text-xl md:text-2xl mb-8">Revolutionizing agriculture with AI to increase yield, reduce costs, and promote sustainability.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="#how" class="px-8 py-3 bg-primary text-white font-bold rounded-full hover:bg-darkgreen transition duration-300 text-lg">Get Started</a>
+        <a href="#hal" class="px-8 py-3 bg-accent text-gray-800 font-bold rounded-full hover:bg-yellow-400 transition duration-300 text-lg">Try AI Assistant Hal</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">About EasyFarms</h2>
+        <div class="h-1 w-20 bg-primary mx-auto"></div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 md:pr-10 mb-8 md:mb-0">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Our Mission</h3>
+          <p class="text-gray-600 text-lg mb-6">
+            EasyFarms aims to transform traditional farming by bringing cutting-edge AI technology to every farmer, regardless of farm size or location. We believe that sustainable agriculture is the key to feeding our growing population while preserving our planet.
+          </p>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Our Vision</h3>
+          <p class="text-gray-600 text-lg">
+            We envision a world where farmers have access to the most advanced agricultural intelligence at their fingertips, enabling them to make data-driven decisions that maximize yields, minimize environmental impact, and create thriving farm businesses.
+          </p>
+        </div>
+        <div class="md:w-1/2">
+          <img src="https://cdn.pixabay.com/photo/2022/02/04/10/31/cow-6992475_1280.jpg" alt="Farming landscape" class="rounded-lg shadow-xl w-full">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet Hal Section -->
+  <section id="hal" class="py-16 bg-lightgreen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Meet "Hal" – Your AI Assistant</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Your personal farming expert powered by artificial intelligence, available 24/7.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="bg-white p-8 rounded-xl shadow-lg">
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-white">
+                  <i class="fas fa-seedling"></i>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-medium text-gray-800">Crop Guidance</h3>
+                <p class="mt-2 text-gray-600">Get personalized recommendations for crop selection, planting times, and harvesting based on your soil, climate, and farm history.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-white">
+                  <i class="fas fa-microscope"></i>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-medium text-gray-800">Soil Analysis</h3>
+                <p class="mt-2 text-gray-600">Upload soil sample images and receive detailed analysis of nutrients, pH levels, and recommendations for amendments.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-white">
+                  <i class="fas fa-bug"></i>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-medium text-gray-800">Disease Detection</h3>
+                <p class="mt-2 text-gray-600">Identify plant diseases and pests early with our image recognition technology and get treatment recommendations.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-white">
+                  <i class="fas fa-cloud-sun-rain"></i>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-medium text-gray-800">Weather Tips</h3>
+                <p class="mt-2 text-gray-600">Receive weather forecasts tailored to your location with farming-specific advice on how to prepare for upcoming conditions.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 text-center">
+            <a href="#" class="px-6 py-3 bg-accent text-gray-800 font-bold rounded-full hover:bg-yellow-400 transition duration-300">Try Hal Now</a>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <div class="relative w-full max-w-md">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-primary">
+              <div class="bg-primary p-4 text-white text-center">
+                <h3 class="text-xl font-semibold">Hal AI Assistant</h3>
+              </div>
+              <div class="p-6 bg-gray-50 h-96 overflow-y-auto">
+                <div class="flex items-start mb-4">
+                  <div class="flex-shrink-0 bg-primary text-white rounded-full h-10 w-10 flex items-center justify-center">
+                    <span>H</span>
+                  </div>
+                  <div class="ml-3 bg-gray-200 rounded-lg p-3 max-w-xs">
+                    <p class="text-sm">Hello! I'm Hal, your farming assistant. How can I help you today?</p>
+                  </div>
+                </div>
+                <div class="flex items-start justify-end mb-4">
+                  <div class="mr-3 bg-primary text-white rounded-lg p-3 max-w-xs">
+                    <p class="text-sm">My tomato plants have yellow spots on their leaves. What could be wrong?</p>
+                  </div>
+                  <div class="flex-shrink-0 bg-gray-500 text-white rounded-full h-10 w-10 flex items-center justify-center">
+                    <span>F</span>
+                  </div>
+                </div>
+                <div class="flex items-start mb-4">
+                  <div class="flex-shrink-0 bg-primary text-white rounded-full h-10 w-10 flex items-center justify-center">
+                    <span>H</span>
+                  </div>
+                  <div class="ml-3 bg-gray-200 rounded-lg p-3 max-w-xs">
+                    <p class="text-sm">Based on your description, your tomato plants might have early blight. Could you upload a photo for a more accurate diagnosis?</p>
+                  </div>
+                </div>
+                <div class="flex items-start justify-end">
+                  <div class="mr-3 bg-primary text-white rounded-lg p-3 max-w-xs">
+                    <p class="text-sm">I'll take a picture right now.</p>
+                  </div>
+                  <div class="flex-shrink-0 bg-gray-500 text-white rounded-full h-10 w-10 flex items-center justify-center">
+                    <span>F</span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4 border-t border-gray-200 bg-white">
+                <div class="flex">
+                  <input type="text" placeholder="Ask Hal a question..." class="flex-1 border border-gray-300 rounded-l-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                  <button class="bg-primary text-white px-4 py-2 rounded-r-full">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Services</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive farming solutions powered by artificial intelligence.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Service Card 1 -->
+        <div class="service-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300">
+          <div class="h-48 overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2021/11/19/11/55/field-6809045_1280.jpg" alt="Soil Analysis" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mb-4">
+              <i class="fas fa-flask text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Soil Analysis</h3>
+            <p class="text-gray-600 mb-4">Advanced soil testing and analysis to understand nutrient content, pH levels, and recommendations for optimal fertility.</p>
+            <a href="#" class="text-primary font-medium hover:underline">Learn more <i class="fas fa-arrow-right ml-1"></i></a>
+          </div>
+        </div>
+        
+        <!-- Service Card 2 -->
+        <div class="service-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300">
+          <div class="h-48 overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2017/07/28/17/20/wheat-2549245_1280.jpg" alt="Crop Advisory" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mb-4">
+              <i class="fas fa-leaf text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Crop Advisory</h3>
+            <p class="text-gray-600 mb-4">Personalized crop recommendations based on your soil, climate, and market conditions to maximize your yields and profits.</p>
+            <a href="#" class="text-primary font-medium hover:underline">Learn more <i class="fas fa-arrow-right ml-1"></i></a>
+          </div>
+        </div>
+        
+        <!-- Service Card 3 -->
+        <div class="service-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300">
+          <div class="h-48 overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2020/12/16/14/56/farm-5836815_1280.jpg" alt="Weather Forecasting" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mb-4">
+              <i class="fas fa-cloud-sun-rain text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Weather Forecasting</h3>
+            <p class="text-gray-600 mb-4">Hyperlocal weather predictions with farm-specific insights to help you plan your activities and protect your crops.</p>
+            <a href="#" class="text-primary font-medium hover:underline">Learn more <i class="fas fa-arrow-right ml-1"></i></a>
+          </div>
+        </div>
+        
+        <!-- Service Card 4 -->
+        <div class="service-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300">
+          <div class="h-48 overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2015/08/18/22/01/lavenders-894919_1280.jpg" alt="Pest & Disease Detection" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mb-4">
+              <i class="fas fa-bug text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Pest & Disease Detection</h3>
+            <p class="text-gray-600 mb-4">Early identification of plant diseases and pests using AI image recognition, with treatment recommendations.</p>
+            <a href="#" class="text-primary font-medium hover:underline">Learn more <i class="fas fa-arrow-right ml-1"></i></a>
+          </div>
+        </div>
+        
+        <!-- Service Card 5 -->
+        <div class="service-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300">
+          <div class="h-48 overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2021/08/17/21/03/herd-6554180_1280.jpg" alt="Community Forum" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mb-4">
+              <i class="fas fa-users text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Community Forum</h3>
+            <p class="text-gray-600 mb-4">Connect with fellow farmers, share experiences, ask questions, and learn from the community's collective wisdom.</p>
+            <a href="#" class="text-primary font-medium hover:underline">Learn more <i class="fas fa-arrow-right ml-1"></i></a>
+          </div>
+        </div>
+        
+        <!-- Service Card 6 -->
+        <div class="service-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300">
+          <div class="h-48 overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2016/11/30/15/23/apples-1873078_1280.jpg" alt="Agri Marketplace" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mb-4">
+              <i class="fas fa-store text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Agri Marketplace</h3>
+            <p class="text-gray-600 mb-4">Buy and sell farm products, equipment, and services directly with other farmers and agricultural businesses.</p>
+            <a href="#" class="text-primary font-medium hover:underline">Learn more <i class="fas fa-arrow-right ml-1"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how" class="py-16 bg-lightgreen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">How It Works</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Getting started with EasyFarms is simple and quick.</p>
+      </div>
+      <div class="flex flex-col md:flex-row justify-between items-center md:space-x-6">
+        <!-- Step 1 -->
+        <div class="w-full md:w-1/3 mb-8 md:mb-0">
+          <div class="bg-white p-8 rounded-xl shadow-lg text-center h-full">
+            <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">1</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Sign Up</h3>
+            <p class="text-gray-600">Create your EasyFarms account and enter basic information about your farm location and size.</p>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="w-full md:w-1/3 mb-8 md:mb-0">
+          <div class="bg-white p-8 rounded-xl shadow-lg text-center h-full">
+            <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">2</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Add Farm Details</h3>
+            <p class="text-gray-600">Tell us about your soil, crops, and farming practices. Upload photos or connect your existing farm management system.</p>
+          </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="w-full md:w-1/3">
+          <div class="bg-white p-8 rounded-xl shadow-lg text-center h-full">
+            <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">3</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Get AI Suggestions</h3>
+            <p class="text-gray-600">Receive personalized recommendations, insights, and guidance from our AI system to improve your farming.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12 text-center">
+        <a href="#" class="px-8 py-3 bg-primary text-white font-bold rounded-full hover:bg-darkgreen transition duration-300 text-lg">Get Started Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">What Farmers Say</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Success stories from farmers using EasyFarms.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="bg-lightgreen p-6 rounded-xl shadow">
+          <div class="flex items-center mb-4">
+            <div class="w-16 h-16 rounded-full overflow-hidden mr-4">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Smith" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">John Smith</h3>
+              <p class="text-gray-600">Wheat Farmer, Kansas</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"EasyFarms helped me increase my wheat yield by 28% in just one season. The soil analysis and precise fertilizer recommendations were game-changers."</p>
+          <div class="flex text-yellow-400">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+        
+        <!-- Testimonial 2 -->
+        <div class="bg-lightgreen p-6 rounded-xl shadow">
+          <div class="flex items-center mb-4">
+            <div class="w-16 h-16 rounded-full overflow-hidden mr-4">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria Rodriguez" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">Maria Rodriguez</h3>
+              <p class="text-gray-600">Organic Vegetable Farmer, California</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"The disease detection feature saved my tomato crop. Hal identified early blight before it spread, and the treatment recommendations worked perfectly."</p>
+          <div class="flex text-yellow-400">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+        </div>
+        
+        <!-- Testimonial 3 -->
+        <div class="bg-lightgreen p-6 rounded-xl shadow">
+          <div class="flex items-center mb-4">
+            <div class="w-16 h-16 rounded-full overflow-hidden mr-4">
+              <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="David Wilson" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">David Wilson</h3>
+              <p class="text-gray-600">Dairy Farmer, Wisconsin</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"The weather forecasting is incredibly accurate. It's helped me plan harvesting and field operations with confidence, saving time and reducing stress."</p>
+          <div class="flex text-yellow-400">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download App Section -->
+  <section class="py-16 bg-primary text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between">
+        <div class="md:w-1/2 mb-8 md:mb-0">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Take EasyFarms With You</h2>
+          <p class="text-xl mb-8">Download our mobile app to access all EasyFarms features right from your pocket, even when you're in the field.</p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#" class="flex items-center px-6 py-3 bg-black rounded-lg hover:bg-gray-900 transition duration-300">
+              <i class="fab fa-google-play text-2xl mr-3"></i>
+              <div>
+                <div class="text-xs">GET IT ON</div>
+                <div class="text-lg font-semibold">Google Play</div>
+              </div>
+            </a>
+            <a href="#" class="flex items-center px-6 py-3 bg-black rounded-lg hover:bg-gray-900 transition duration-300">
+              <i class="fab fa-apple text-2xl mr-3"></i>
+              <div>
+                <div class="text-xs">DOWNLOAD ON THE</div>
+                <div class="text-lg font-semibold">App Store</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="md:w-1/3 flex justify-center">
+          <div class="bg-white p-4 rounded-xl">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://easyfarms.ai/download" alt="QR Code" class="w-48 h-48">
+            <p class="text-center mt-2 text-primary font-medium">Scan to download</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join Community Section -->
+  <section class="py-16 bg-lightgreen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Join Our Farming Community</h2>
+        <div class="h-1 w-20 bg-primary mx-auto mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Connect with thousands of farmers, share experiences, and learn together.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="#" class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
+          <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">
+            <i class="fab fa-telegram-plane"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Telegram Group</h3>
+          <p class="text-gray-600 mb-4">Join our active Telegram community for daily tips and discussions.</p>
+          <span class="text-blue-500 font-medium">Join Now <i class="fas fa-arrow-right ml-1"></i></span>
+        </a>
+        
+        <a href="#" class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">WhatsApp Group</h3>
+          <p class="text-gray-600 mb-4">Connect with local farmers in your region via WhatsApp.</p>
+          <span class="text-green-500 font-medium">Join Now <i class="fas fa-arrow-right ml-1"></i></span>
+        </a>
+        
+        <a href="#" class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
+          <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">EasyFarms Forum</h3>
+          <p class="text-gray-600 mb-4">Access our dedicated forum with thousands of topics and expert advice.</p>
+          <span class="text-primary font-medium">Join Now <i class="fas fa-arrow-right ml-1"></i></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-1">
+          <span class="text-2xl font-bold text-white">EasyFarms</span>
+          <p class="mt-4 text-gray-400">AI-powered farming solutions to improve yields, reduce costs, and promote sustainable agriculture.</p>
+          <div class="flex mt-6 space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+            <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Services</a></li>
+            <li><a href="#hal" class="text-gray-400 hover:text-white transition duration-300">Meet Hal</a></li>
+            <li><a href="#testimonials" class="text-gray-400 hover:text-white transition duration-300">Testimonials</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
+              <span>123 Farm Road, Agriville, CA 94123, USA</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-2"></i>
+              <span>+1 (555) 123-4567</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2"></i>
+              <span>info@easyfarms.ai</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Stay Updated</h3>
+          <p class="text-gray-400 mb-4">Subscribe to our newsletter for the latest farming tips and updates.</p>
+          <form class="space-y-2">
+            <input type="email" placeholder="Your email address" class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <button type="submit" class="w-full px-4 py-2 bg-primary text-white font-medium rounded-md hover:bg-darkgreen transition duration-300">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400">&copy; 2023 EasyFarms. All rights reserved.</p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>
+          <a href="#" class="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
+          <a href="#" class="text-gray-400 hover:text-white transition duration-300">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if(targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if(targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
