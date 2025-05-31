@@ -116,6 +116,9 @@
     .reveal-delay-4 { transition-delay: 0.4s; }
     .reveal-delay-5 { transition-delay: 0.5s; }
     
+    #chat-popup{
+      z-index: 99;
+    }
     /* Hero Section */
     .hero {
       background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://cdn.pixabay.com/photo/2017/07/28/17/20/wheat-2549245_1280.jpg');
@@ -296,7 +299,7 @@
       position: fixed;
       top: 80px;
       right: 20px;
-      z-index: 99;
+      z-index: 98;
       width: 40px;
       height: 40px;
       background: white;
