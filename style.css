@@ -1,4 +1,4 @@
-    /* Global styles and variables */
+/* Global styles and variables */
     :root {
       --primary: #1E8449;
       --secondary: #5CAD56;
@@ -123,6 +123,14 @@
       background-position: center;
       position: relative;
       isolation: isolate;
+      padding-top: 28rem; /* Further increase padding to ensure visibility */
+      z-index: 10; /* Ensure it's below the navigation bar */
+    }
+    
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 5rem; /* Slightly more padding for mobile screens */
+      }
     }
     
     .hero::after {
