@@ -133,6 +133,12 @@
       }
     }
     
+    @media only screen and (max-width: 600px) {
+      .hero {
+        padding-top: 20rem; /* Adjust padding for small portrait screens */
+      }
+    }
+    
     .hero::after {
       content: "";
       position: absolute;
