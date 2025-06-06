@@ -83,44 +83,103 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       `;
-      
+  
       // Clear input
       chatInput.value = '';
-      
-      // Show typing indicator
+  
+      // Add the three-dot bouncing animation to the typing indicator
+      typingIndicator.innerHTML = `
+        <div class="three-dots-bouncing">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      `;
       typingIndicator.classList.remove('hidden');
-      
+  
+      // Add CSS for three-dots-bouncing animation if not already added
+      if (!document.getElementById('dot-animation-style')) {
+        const style = document.createElement('style');
+        style.id = 'dot-animation-style';
+        style.innerHTML = `
+          .three-dots-bouncing {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding: 10px;
+          }
+          
+          .three-dots-bouncing .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary, #1E8449);
+            animation: bounce 1.4s infinite ease-in-out both;
+          }
+          
+          .three-dots-bouncing .dot:nth-child(1) {
+            animation-delay: -0.32s;
+          }
+          
+          .three-dots-bouncing .dot:nth-child(2) {
+            animation-delay: -0.16s;
+          }
+          
+          @keyframes bounce {
+            0%, 80%, 100% { 
+              transform: scale(0);
+              opacity: 0.5;
+            }
+            40% { 
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+          
+          .dark-mode .three-dots-bouncing .dot {
+            background-color: var(--accent, #F39C12);
+          }
+        `;
+        document.head.appendChild(style);
+      }
+  
       // Scroll to bottom
       chatMessages.scrollTop = chatMessages.scrollHeight;
-      
-      // Simulate AI response after delay
-      setTimeout(() => {
+  
+      // Send user message to server
+      fetch('https://crop-chatbot-millet.vercel.app/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: message })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Hide typing indicator
         typingIndicator.classList.add('hidden');
-        
+  
         // Add AI response
-        const responses = [
-          "I've analyzed your farm data and noticed your corn crop might benefit from additional nitrogen. Would you like specific recommendations?",
-          "Based on the weather forecast for your area, I'd recommend delaying irrigation until Thursday to avoid water runoff during the expected rainfall.",
-          "Your soil analysis indicates optimal conditions for planting winter wheat next month. Would you like me to prepare a planting schedule?",
-          "I've detected a potential early sign of fungal infection in your recent crop images. Let me suggest some preventative measures you can take."
-        ];
-        
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        
         chatMessages.innerHTML += `
           <div class="flex items-start mb-6">
             <div class="flex-shrink-0 bg-gradient-to-r from-primary to-darkgreen text-white rounded-full h-12 w-12 flex items-center justify-center shadow-md">
               <i class="fas fa-robot"></i>
             </div>
             <div class="ml-3 bg-white dark:bg-gray-600 rounded-xl p-4 max-w-xs shadow-md">
-              <p class="text-gray-700 dark:text-white">${randomResponse}</p>
+              <p class="text-gray-700 dark:text-white">${data.response}</p>
             </div>
           </div>
         `;
-        
+  
         // Scroll to bottom again
         chatMessages.scrollTop = chatMessages.scrollHeight;
-      }, 1500);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Hide typing indicator on error too
+        typingIndicator.classList.add('hidden');
+      });
     }
   }
   
