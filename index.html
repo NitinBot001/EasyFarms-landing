@@ -948,5 +948,27 @@
   </div>
 
   <script src="script.js"></script>
+  <!-- Add Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const supabaseUrl = "https://geslknqmelmaoowdkmwv.supabase.co"; // replace
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdlc2xrbnFtZWxtYW9vd2RrbXd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMjAwMzMsImV4cCI6MjA2Nzg5NjAzM30.k2JhLyjZ5F6W1vwwGX2yqPf-1Q8vm6nQyV8Zhqfqtfc"; // replace
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function logVisitor() {
+    const ip = await fetch("https://api64.ipify.org?format=json").then(res => res.json());
+    const userAgent = navigator.userAgent;
+
+    await supabase.from("visitors").insert([
+      {
+        ip_address: ip.ip,
+        user_agent: userAgent
+      }
+    ]);
+  }
+
+  logVisitor();
+</script>
+
 </body>
 </html>
