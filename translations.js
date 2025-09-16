@@ -46,7 +46,7 @@ const translations = {
      'Get personalized recommendations for crop selection, planting times, and harvesting based on your soil, climate, and farm history.':'अपनी मिट्टी, जलवायु और खेती के इतिहास के आधार पर फसल चयन, बुवाई के समय और कटाई के लिए व्यक्तिगत सुझाव प्राप्त करें।',
      'Upload soil sample images and receive detailed analysis of nutrients, pH levels, and recommendations for amendments.':'मिट्टी के नमूनों की तस्वीरें अपलोड करें और पोषक तत्वों, पीएच स्तर तथा सुधार के लिए विस्तृत सुझाव प्राप्त करें।',
      'Identify plant diseases and pests early with our image recognition technology and get treatment recommendations.':'फसल की फोटो डालें, बीमारी और कीट जल्दी पहचानें और इलाज के आसान सुझाव पाएं|',
-     'Receive weather forecasts tailored to your location with farming-specific advice on how to prepare for upcoming conditions.':'अपने स्थान के अनुसार मौसम का पूर्वानुमान प्राप्त करें और आने वाली परिस्थितियों के लिए खेती से जुड़ी विशेष सलाह पाएं।'
+     'Receive weather forecasts tailored to your location with farming-specific advice on how to prepare for upcoming conditions.':'अपने स्थान के अनुसार मौसम का पूर्वानुमान प्राप्त करें और आने वाली परिस्थितियों के लिए खेती से जुड़ी विशेष सलाह पाएं।',
     'Our Vision': 'हमारी दृष्टि',
     'Meet "Hal" – Your AI Assistant': '"Hal" से मिलिए – आपका AI सहायक',
     'Crop Guidance': 'फसल मार्गदर्शन',
