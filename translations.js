@@ -40,6 +40,13 @@ const translations = {
 
     'About EasyFarms': 'EasyFarms के बारे में',
     'Our Mission': 'हमारा मिशन',
+    'EasyFarms aims to transform traditional farming by bringing cutting-edge AI technology to every farmer, regardless of farm size or location. We believe that sustainable agriculture is the key to feeding our growing population while preserving our planet.': 'ईज़ीफ़ार्म्स का उद्देश्य पारंपरिक खेती को बदलना है, ताकि हर किसान तक—चाहे उसकी ज़मीन छोटी हो या बड़ी, और वह कहीं भी हो—उन्नत एआई तकनीक पहुँच सके। हमारा विश्वास है कि सतत कृषि ही बढ़ती हुई जनसंख्या का पेट भरने और हमारी धरती को सुरक्षित रखने की कुंजी है।',
+    'We envision a world where farmers have access to the most advanced agricultural intelligence at their fingertips, enabling them to make data-driven decisions that maximize yields, minimize environmental impact, and create thriving farm businesses.':'हम एक ऐसे विश्व की कल्पना करते हैं जहाँ किसानों के पास सबसे उन्नत कृषि बुद्धिमत्ता उनकी उंगलियों पर उपलब्ध हो। इससे वे डेटा-आधारित निर्णय ले सकें, जो उपज को अधिकतम करें, पर्यावरणीय प्रभाव को न्यूनतम करें और उनकी खेती को एक सफल व्यवसाय में बदल दें।',
+    'Your personal farming expert powered by artificial intelligence, available 24/7.':'आपका निजी खेती विशेषज्ञ, कृत्रिम बुद्धिमत्ता से संचालित, 24/7 उपलब्ध',
+     'Get personalized recommendations for crop selection, planting times, and harvesting based on your soil, climate, and farm history.':'अपनी मिट्टी, जलवायु और खेती के इतिहास के आधार पर फसल चयन, बुवाई के समय और कटाई के लिए व्यक्तिगत सुझाव प्राप्त करें।',
+     'Upload soil sample images and receive detailed analysis of nutrients, pH levels, and recommendations for amendments.':'मिट्टी के नमूनों की तस्वीरें अपलोड करें और पोषक तत्वों, पीएच स्तर तथा सुधार के लिए विस्तृत सुझाव प्राप्त करें।',
+     'Identify plant diseases and pests early with our image recognition technology and get treatment recommendations.':'फसल की फोटो डालें, बीमारी और कीट जल्दी पहचानें और इलाज के आसान सुझाव पाएं|',
+     'Receive weather forecasts tailored to your location with farming-specific advice on how to prepare for upcoming conditions.':'अपने स्थान के अनुसार मौसम का पूर्वानुमान प्राप्त करें और आने वाली परिस्थितियों के लिए खेती से जुड़ी विशेष सलाह पाएं।'
     'Our Vision': 'हमारी दृष्टि',
     'Meet "Hal" – Your AI Assistant': '"Hal" से मिलिए – आपका AI सहायक',
     'Crop Guidance': 'फसल मार्गदर्शन',
